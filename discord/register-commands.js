@@ -16,7 +16,7 @@ const rest = new REST().setToken(config.discordToken);
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
 			Routes.applicationGuildCommands(config.discordClientId, config.discordServerId),
-			{ body: commands().map(c => {
+			{ body: commands.map(c => {
                 return c.data.toJSON()
             })  },
 		);

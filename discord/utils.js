@@ -16,7 +16,7 @@ export default async function DiscordClient() {
 
     discord.commands = new Collection();
 
-    commands().forEach(c => {
+    commands.forEach(c => {
         discord.commands.set(c.data.name, c);
     })
 
@@ -45,33 +45,42 @@ export default async function DiscordClient() {
     return discord
 }
 
-const commandDefinitions = [
+export const commands = [
     {
-        name: "ping",
-        description: "replies with pong",
+        data: new SlashCommandBuilder()
+        .setName("checkin")
+        .setDescription("check in for the tournament"),
         execute: async function (interaction) {
-            await interaction.reply("pong")
+            await interaction.reply("checkin reply")
         }
     },
     {
-        name: "help",
-        description: "replies with help commands",
+        data: new SlashCommandBuilder()
+        .setName("help")
+        .setDescription("replies with help commands"),
         execute: async function (interaction) {
             await interaction.reply("This is the help")
+        }
+    },
+    {
+        data: new SlashCommandBuilder()
+        .setName("report")
+        .setDescription("report match results")
+        .addUserOption(option =>
+            option
+                .setName('winner')
+                .setDescription('the winner of the match')
+                .setRequired(true)),
+        execute: async function (interaction) {
+            const winner = interaction.options.getUser('winner').username;
+            const reporter = interaction.member.user.username
+            await interaction.reply(`report match: ${winner}: ${reporter}`)
         }
     }
 ]
 
-export function commands() {
 
-    return commandDefinitions.map(cd => {
-        const cb = new SlashCommandBuilder()
-            .setName(cd.name)
-            .setDescription(cd.description)
-        return { data: cb, execute: cd.execute }
-    })
 
-}
 
 
 

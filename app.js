@@ -1,5 +1,5 @@
-
-import config from "./config/appConfig.js";
+`````
+import config from "./config/appConfig.js";`````
 import DiscordClient from "./discord/utils.js"
 const discordClient = await DiscordClient()
 import pkg from '@apollo/client'
